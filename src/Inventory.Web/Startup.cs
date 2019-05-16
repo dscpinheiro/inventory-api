@@ -55,6 +55,15 @@ namespace Inventory.Web
             services.AddScoped<IShopService, ShopService>();
 
             services.AddCors();
+
+            services.AddAuthorization();
+            services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
+            {
+                options.Authority = "http://localhost:5001";
+                options.RequireHttpsMetadata = false;
+                options.Audience = "inventoryapi";
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -73,6 +82,7 @@ namespace Inventory.Web
             });
 
             app.UseCors(b => b.AllowAnyMethod().AllowAnyHeader().WithOrigins(Configuration["AllowedHosts"]));
+            app.UseAuthentication();
             app.UseMvc();
         }
     }
