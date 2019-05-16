@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Inventory.Core.Models
+namespace Inventory.Models
 {
     public class Item
     {

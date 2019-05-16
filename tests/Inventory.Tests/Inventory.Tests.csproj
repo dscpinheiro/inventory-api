@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Inventory.Models\Inventory.Models.csproj" />
     <ProjectReference Include="..\..\src\Inventory.Core\Inventory.Core.csproj" />
     <ProjectReference Include="..\..\src\Inventory.Web\Inventory.Web.csproj" />
   </ItemGroup>

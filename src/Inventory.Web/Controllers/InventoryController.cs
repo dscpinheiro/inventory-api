@@ -2,20 +2,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Inventory.Core.Interfaces;
-using Inventory.Core.Models;
+using Inventory.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.Web.Controllers
 {
-    [Route("inventory"), ApiController]
+    [Route("inventory"), ApiController, AllowAnonymous]
     public class InventoryController : ControllerBase
     {
         private readonly IShopService _shopService;
 
         public InventoryController(IShopService service) => _shopService = service;
 
-        /// <summary>Gets all items in the inventory, ordered by name.</summary>
+        /// <summary>Retrieves all items in the inventory, ordered by name.</summary>
         /// <param name="limit">Number of items to be returned.</param>
         /// <param name="offset">Number of items to skip. Can be used to paginate results.</param>
         /// <param name="name">Optional filter. If included, only items whose name contain it will be returned.</param>

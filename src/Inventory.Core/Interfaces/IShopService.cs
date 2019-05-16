@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Inventory.Core.Models;
+using Inventory.Models;
 
 namespace Inventory.Core.Interfaces
 {

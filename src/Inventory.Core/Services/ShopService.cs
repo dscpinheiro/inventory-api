@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Inventory.Core.Data;
 using Inventory.Core.Interfaces;
-using Inventory.Core.Models;
+using Inventory.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inventory.Core.Services
