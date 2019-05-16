@@ -50,6 +50,22 @@ namespace Inventory.Core.Data
                     Description = "Conjured Mana Cake",
                     Price = 25,
                     Quantity = 10
+                },
+                new Item
+                {
+                    Id = Guid.Parse("84a46910-bbe7-4cba-a4f1-bbe1228036c7"),
+                    Name = "Aged Brie",
+                    Description = "Aged Brie",
+                    Price = 5,
+                    Quantity = 50
+                },
+                new Item
+                {
+                    Id = Guid.Parse("4bf93e23-44b8-402e-86da-f690abb1f0d5"),
+                    Name = "Backstage passes to a TAFKAL80ETC concert",
+                    Description = "Backstage passes to a TAFKAL80ETC concert",
+                    Price = 100,
+                    Quantity = 10
                 }
             });
         }
