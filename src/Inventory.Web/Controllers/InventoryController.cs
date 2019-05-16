@@ -15,6 +15,11 @@ namespace Inventory.Web.Controllers
 
         public InventoryController(IShopService service) => _shopService = service;
 
+        /// <summary>Gets all items in the inventory, ordered by name.</summary>
+        /// <param name="limit">Number of items to be returned.</param>
+        /// <param name="offset">Number of items to skip. Can be used to paginate results.</param>
+        /// <param name="name">Optional filter. If included, only items whose name contain it will be returned.</param>
+        /// <param name="description">Optional filter. If included, only items whose description contain it will be returned.</param>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

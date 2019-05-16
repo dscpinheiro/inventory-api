@@ -1,4 +1,7 @@
-﻿using Inventory.Core.Data;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using Inventory.Core.Data;
 using Inventory.Core.Interfaces;
 using Inventory.Core.Services;
 using Microsoft.AspNetCore.Builder;
@@ -8,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Inventory.Web
 {
@@ -29,6 +33,25 @@ namespace Inventory.Web
                 options.UseInternalServiceProvider(serviceProvider);
             });
 
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new Info
+                {
+                    Title = "Inventory API",
+                    Version = "v1",
+                    Contact = new Contact
+                    {
+                        Name = "Daniel S. Pinheiro",
+                        Url = "https://dscpinheiro.com/"
+                    }
+                });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                options.IncludeXmlComments(xmlPath);
+            });
+
             services.AddScoped<IShopService, ShopService>();
 
             services.AddCors();
@@ -41,6 +64,13 @@ namespace Inventory.Web
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Inventory API V1");
+                options.RoutePrefix = string.Empty;
+            });
 
             app.UseCors(b => b.AllowAnyMethod().AllowAnyHeader().WithOrigins(Configuration["AllowedHosts"]));
             app.UseMvc();
