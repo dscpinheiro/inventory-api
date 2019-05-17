@@ -36,7 +36,7 @@ namespace Inventory.Core.Services
             return await query.ToListAsync();
         }
 
-        public async Task<(PurchaseStatus status, int totalPrice)> BuyItem(Item item, int quantity)
+        public async Task<(PurchaseStatus status, int totalPrice)> BuyItem(Item item, int quantity, string buyerId)
         {
             if (item.AvailableUnits == 0)
             {

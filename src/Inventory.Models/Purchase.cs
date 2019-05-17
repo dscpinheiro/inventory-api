@@ -8,5 +8,6 @@ namespace Inventory.Models
         public Item Item { get; set; }
         public int Quantity { get; set; }
         public int TotalPrice { get; set; }
+        public string BuyerId { get; set; }
     }
 }

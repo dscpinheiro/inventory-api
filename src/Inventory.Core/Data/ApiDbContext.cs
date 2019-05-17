@@ -17,6 +17,7 @@ namespace Inventory.Core.Data
             purchaseEntity.Property(p => p.Id).ValueGeneratedOnAdd();
             purchaseEntity.Property(p => p.Quantity).IsRequired();
             purchaseEntity.Property(p => p.TotalPrice).IsRequired();
+            purchaseEntity.Property(p => p.BuyerId).IsRequired();
             purchaseEntity.HasOne(p => p.Item).WithMany(i => i.Purchases);
 
             var itemEntity = modelBuilder.Entity<Item>();

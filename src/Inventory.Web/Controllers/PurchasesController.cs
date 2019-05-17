@@ -30,7 +30,8 @@ namespace Inventory.Web.Controllers
                 return NotFound();
             }
 
-            var result = await _shopService.BuyItem(item, request.Quantity);
+            var userId = User.Claims.First(c => c.Type == "sub").Value;
+            var result = await _shopService.BuyItem(item, request.Quantity, userId);
 
             return Ok(new PurchaseResponse
             {
