@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Inventory.Core.Interfaces;
 using Inventory.Models;
+using Inventory.Web.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,7 @@ namespace Inventory.Web.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<Item>>> Get(int limit = 100, int offset = 0, string name = null, string description = null)
+        public async Task<ActionResult<IEnumerable<InventoryItem>>> Get(int limit = 100, int offset = 0, string name = null, string description = null)
         {
             if (limit <= 0 || limit > 1000)
             {
@@ -38,7 +39,7 @@ namespace Inventory.Web.Controllers
             }
 
             var items = await _shopService.GetItems(limit, offset, name, description);
-            return items.ToList();
+            return items.Select(CreateReadModel).ToList();;
         }
 
         /// <summary>Retrieves an existing item in the inventory.</summary>
@@ -46,7 +47,7 @@ namespace Inventory.Web.Controllers
         [HttpGet("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Item>> Get(Guid id)
+        public async Task<ActionResult<InventoryItem>> Get(Guid id)
         {
             var item = await _shopService.GetItem(id);
             if (item == null)
@@ -54,7 +55,18 @@ namespace Inventory.Web.Controllers
                 return NotFound();
             }
 
-            return item;
+            return CreateReadModel(item);
         }
+
+        /// <summary>
+        /// Maps the item entity to a model returned to clients.
+        /// </summary>
+        private InventoryItem CreateReadModel(Item item) => new InventoryItem
+        {
+            Id = item.Id,
+            Name = item.Name,
+            Description = item.Description,
+            Price = item.Price
+        };
     }
 }

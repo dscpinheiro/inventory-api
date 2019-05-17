@@ -63,6 +63,7 @@ namespace Inventory.Web
                 });
 
                 options.OperationFilter<AuthorizeOperationFilter>();
+                options.DocumentFilter<RemoveModelsFilter>();
             });
 
             services
