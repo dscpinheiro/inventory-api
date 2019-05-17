@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using IdentityServer4.AccessTokenValidation;
 using Inventory.Core.Data;
 using Inventory.Core.Interfaces;
 using Inventory.Core.Services;
+using Inventory.Web.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -33,6 +35,8 @@ namespace Inventory.Web
                 options.UseInternalServiceProvider(serviceProvider);
             });
 
+            services.AddScoped<IShopService, ShopService>();
+
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new Info
@@ -50,20 +54,28 @@ namespace Inventory.Web
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath);
+
+                options.AddSecurityDefinition("oauth2", new OAuth2Scheme
+                {
+                    Flow = "implicit",
+                    AuthorizationUrl = "http://localhost:5001/connect/authorize",
+                    TokenUrl = "http://localhost:5001/connect/token",
+                    Scopes = new Dictionary<string, string> {{ "inventory_api", "Inventory API" }}
+                });
+
+                options.OperationFilter<AuthorizeOperationFilter>();
             });
 
-            services.AddScoped<IShopService, ShopService>();
+            services
+                .AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = "http://localhost:5001";
+                    options.RequireHttpsMetadata = false;
+                    options.ApiName = "inventoryapi";
+                });
 
             services.AddCors();
-
-            services.AddAuthorization();
-            services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
-            {
-                options.Authority = "http://localhost:5001";
-                options.RequireHttpsMetadata = false;
-                options.Audience = "inventoryapi";
-            });
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -74,15 +86,19 @@ namespace Inventory.Web
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseAuthentication();
+
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Inventory API V1");
                 options.RoutePrefix = string.Empty;
+
+                options.OAuthClientId("swagger_client");
+                options.OAuthAppName("Inventory API - Swagger");
             });
 
             app.UseCors(b => b.AllowAnyMethod().AllowAnyHeader().WithOrigins(Configuration["AllowedHosts"]));
-            app.UseAuthentication();
             app.UseMvc();
         }
     }

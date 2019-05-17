@@ -10,28 +10,32 @@ namespace Inventory.IdentityServer
     {
         public static IEnumerable<IdentityResource> GetIdentityResources() => new List<IdentityResource>
         {
-            new IdentityResources.OpenId()
+            new IdentityResources.OpenId(),
+            new IdentityResources.Profile()
         };
 
         public static IEnumerable<ApiResource> GetApis() => new List<ApiResource>
         {
-            new ApiResource("inventoryapi", "Inventory API")
+            new ApiResource("inventory_api", "Inventory API")
         };
 
         public static IEnumerable<Client> GetClients() => new List<Client>
         {
             new Client
             {
-                ClientId = "authorized-client",
-
-                // no interactive user, use the clientid/secret for authentication
+                ClientId = "authorized_client",
                 AllowedGrantTypes = GrantTypes.ClientCredentials,
-
-                // secret for authentication
                 ClientSecrets = { new Secret("secret".Sha256()) },
-
-                // scopes that client has access to
-                AllowedScopes = { "inventoryapi" }
+                AllowedScopes = { "inventory_api" }
+            },
+            new Client
+            {
+                ClientId = "swagger_client",
+                ClientName = "Swagger UI for Inventory API",
+                AllowedGrantTypes = GrantTypes.Implicit,
+                AllowAccessTokensViaBrowser = true,
+                RedirectUris = { "http://localhost:5000/oauth2-redirect.html" },
+                AllowedScopes = { "inventory_api" }
             }
         };
     }
