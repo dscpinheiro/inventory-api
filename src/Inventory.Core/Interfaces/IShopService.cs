@@ -9,5 +9,6 @@ namespace Inventory.Core.Interfaces
     {
         Task<IEnumerable<Item>> GetItems(int limit, int offset, string name, string description);
         Task<Item> GetItem(Guid id);
+        Task<(PurchaseStatus status, int totalPrice)> BuyItem(Item item, int quantity);
     }
 }

@@ -66,7 +66,8 @@ namespace Inventory.Web.Controllers
             Id = item.Id,
             Name = item.Name,
             Description = item.Description,
-            Price = item.Price
+            Price = item.Price,
+            AvailableUnits = item.AvailableUnits
         };
     }
 }

@@ -35,5 +35,33 @@ namespace Inventory.Core.Services
 
             return await query.ToListAsync();
         }
+
+        public async Task<(PurchaseStatus status, int totalPrice)> BuyItem(Item item, int quantity)
+        {
+            if (item.AvailableUnits == 0)
+            {
+                return (PurchaseStatus.OutOfStock, 0);
+            }
+
+            if (item.AvailableUnits < quantity)
+            {
+                return (PurchaseStatus.NotEnoughItems, 0);
+            }
+
+            item.AvailableUnits -= quantity;
+            _context.Items.Update(item);
+
+            var purchase = new Purchase
+            {
+                Item = item,
+                Quantity = quantity,
+                TotalPrice = item.Price * quantity
+            };
+
+            await _context.Purchases.AddAsync(purchase);
+            await _context.SaveChangesAsync();
+
+            return (PurchaseStatus.Completed, purchase.TotalPrice);
+        }
     }
 }

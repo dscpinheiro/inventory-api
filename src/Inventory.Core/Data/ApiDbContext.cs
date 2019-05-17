@@ -9,7 +9,7 @@ namespace Inventory.Core.Data
         public ApiDbContext(DbContextOptions<ApiDbContext> options) : base(options) { }
 
         public DbSet<Item> Items { get; set; }
-        public DbSet<Purchase> Purchase { get; set; }
+        public DbSet<Purchase> Purchases { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

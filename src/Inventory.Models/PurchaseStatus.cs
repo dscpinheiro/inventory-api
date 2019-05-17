@@ -2,9 +2,8 @@ namespace Inventory.Models
 {
     public enum PurchaseStatus
     {
-        None = 0,
-        Completed = 1,
-        OutOfStock = 2,
-        NotEnoughItems = 3
+        Completed = 0,
+        OutOfStock = 1,
+        NotEnoughItems = 2
     }
 }
