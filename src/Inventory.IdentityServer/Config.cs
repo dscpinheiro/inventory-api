@@ -23,13 +23,6 @@ namespace Inventory.IdentityServer
         {
             new Client
             {
-                ClientId = "authorized_client",
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
-                ClientSecrets = { new Secret("secret".Sha256()) },
-                AllowedScopes = { "inventory_api" }
-            },
-            new Client
-            {
                 ClientId = "swagger_client",
                 ClientName = "Swagger UI for Inventory API",
                 AllowedGrantTypes = GrantTypes.Implicit,

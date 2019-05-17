@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +12,6 @@ namespace Inventory.Web.Controllers
         /// <summary>Submits a purchase of an item.</summary>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult Post() => Ok();
+        public IActionResult Post() => Ok(from c in User.Claims select new { c.Type, c.Value });
     }
 }

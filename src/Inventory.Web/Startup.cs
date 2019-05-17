@@ -59,8 +59,7 @@ namespace Inventory.Web
                 {
                     Flow = "implicit",
                     AuthorizationUrl = "http://localhost:5001/connect/authorize",
-                    TokenUrl = "http://localhost:5001/connect/token",
-                    Scopes = new Dictionary<string, string> {{ "inventory_api", "Inventory API" }}
+                    Scopes = new Dictionary<string, string> {{ "inventory_api", "Full access" }}
                 });
 
                 options.OperationFilter<AuthorizeOperationFilter>();
@@ -72,7 +71,7 @@ namespace Inventory.Web
                 {
                     options.Authority = "http://localhost:5001";
                     options.RequireHttpsMetadata = false;
-                    options.ApiName = "inventoryapi";
+                    options.ApiName = "inventory_api";
                 });
 
             services.AddCors();
