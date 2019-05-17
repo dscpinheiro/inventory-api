@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
-namespace Inventory.Tests.Controllers
+namespace Inventory.UnitTests
 {
     public class InventoryControllerTests : IDisposable
     {
