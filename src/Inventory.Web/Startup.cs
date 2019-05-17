@@ -39,16 +39,7 @@ namespace Inventory.Web
 
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new Info
-                {
-                    Title = "Inventory API",
-                    Version = "v1",
-                    Contact = new Contact
-                    {
-                        Name = "Daniel S. Pinheiro",
-                        Url = "https://dscpinheiro.com/"
-                    }
-                });
+                options.SwaggerDoc("v1", new Info { Title = "Inventory API", Version = "v1" });
 
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

@@ -329,5 +329,4 @@ ASALocalRun/
 .mfractor/
 
 # Identity server
-identityserver4_log.txt
 tempkey.rsa
