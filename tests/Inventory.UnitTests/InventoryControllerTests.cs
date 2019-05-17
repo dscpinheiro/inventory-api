@@ -123,6 +123,27 @@ namespace Inventory.UnitTests
             Assert.Empty(filteredItems);
         }
 
+        [Fact]
+        public async Task Get_ExistingItem_ReturnsOk()
+        {
+            var existingItemId = Guid.Parse("f0de704d-5d5e-4364-bd01-466f0022e8ff");
+
+            var actionResult = await _controller.Get(existingItemId);
+            var item = actionResult.Value;
+
+            Assert.NotNull(item);
+            Assert.Equal(existingItemId, item.Id);
+        }
+
+        [Fact]
+        public async Task Get_UnknownItem_ReturnsNotFound()
+        {
+            var actionResult = await _controller.Get(Guid.NewGuid());
+
+            Assert.Null(actionResult.Value);
+            Assert.IsType<NotFoundResult>(actionResult.Result);
+        }
+
         public void Dispose() => _context.Dispose();
     }
 }

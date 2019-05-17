@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,6 +39,22 @@ namespace Inventory.Web.Controllers
 
             var items = await _shopService.GetItems(limit, offset, name, description);
             return items.ToList();
+        }
+
+        /// <summary>Retrieves an existing item in the inventory.</summary>
+        /// <param name="id">Id of the item to be retrieved.</param>
+        [HttpGet("{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Item>> Get(Guid id)
+        {
+            var item = await _shopService.GetItem(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            return item;
         }
     }
 }

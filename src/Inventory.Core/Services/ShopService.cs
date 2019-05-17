@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +13,9 @@ namespace Inventory.Core.Services
     {
         private readonly ApiDbContext _context;
         public ShopService(ApiDbContext context) => _context = context;
+
+        public async Task<Item> GetItem(Guid id) =>
+            await _context.Items.SingleOrDefaultAsync(i => i.Id == id);
 
         public async Task<IEnumerable<Item>> GetItems(int limit, int offset, string name, string description)
         {
