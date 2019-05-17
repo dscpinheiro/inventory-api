@@ -36,7 +36,7 @@ namespace Inventory.Web.Controllers
                 return BadRequest($"{nameof(offset)} must be at least zero");
             }
 
-            var items = await _shopService.GetAll(limit, offset, name, description);
+            var items = await _shopService.GetItems(limit, offset, name, description);
             return items.ToList();
         }
     }

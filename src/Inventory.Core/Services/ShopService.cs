@@ -13,7 +13,7 @@ namespace Inventory.Core.Services
         private readonly ApiDbContext _context;
         public ShopService(ApiDbContext context) => _context = context;
 
-        public async Task<IEnumerable<Item>> GetAll(int limit, int offset, string name, string description)
+        public async Task<IEnumerable<Item>> GetItems(int limit, int offset, string name, string description)
         {
             var query = _context.Items.AsQueryable();
 
