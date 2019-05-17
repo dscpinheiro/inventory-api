@@ -9,9 +9,16 @@ namespace Inventory.Core.Data
         public ApiDbContext(DbContextOptions<ApiDbContext> options) : base(options) { }
 
         public DbSet<Item> Items { get; set; }
+        public DbSet<Purchase> Purchase { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            var purchaseEntity = modelBuilder.Entity<Purchase>();
+            purchaseEntity.Property(p => p.Id).ValueGeneratedOnAdd();
+            purchaseEntity.Property(p => p.Quantity).IsRequired();
+            purchaseEntity.Property(p => p.TotalPrice).IsRequired();
+            purchaseEntity.HasOne(p => p.Item).WithMany(i => i.Purchases);
+
             var itemEntity = modelBuilder.Entity<Item>();
             itemEntity.Property(p => p.Name).IsRequired().HasMaxLength(128);
             itemEntity.Property(p => p.Description).HasMaxLength(512);
@@ -25,7 +32,7 @@ namespace Inventory.Core.Data
                     Name = "+5 Dexterity Vest",
                     Description = "+5 Dexterity Vest",
                     Price = 10,
-                    Quantity = 25
+                    AvailableUnits = 25
                 },
                 new Item
                 {
@@ -33,7 +40,7 @@ namespace Inventory.Core.Data
                     Name = "Elixir of the Mongoose",
                     Description = "Elixir of the Mongoose",
                     Price = 15,
-                    Quantity = 20
+                    AvailableUnits = 20
                 },
                 new Item
                 {
@@ -41,7 +48,7 @@ namespace Inventory.Core.Data
                     Name = "Sulfuras, Hand of Ragnaros",
                     Description = "Sulfuras, Hand of Ragnaros",
                     Price = 20,
-                    Quantity = 15
+                    AvailableUnits = 15
                 },
                 new Item
                 {
@@ -49,7 +56,7 @@ namespace Inventory.Core.Data
                     Name = "Conjured Mana Cake",
                     Description = "Conjured Mana Cake",
                     Price = 25,
-                    Quantity = 10
+                    AvailableUnits = 10
                 },
                 new Item
                 {
@@ -57,7 +64,7 @@ namespace Inventory.Core.Data
                     Name = "Aged Brie",
                     Description = "Aged Brie",
                     Price = 5,
-                    Quantity = 50
+                    AvailableUnits = 50
                 },
                 new Item
                 {
@@ -65,7 +72,7 @@ namespace Inventory.Core.Data
                     Name = "Backstage passes to a TAFKAL80ETC concert",
                     Description = "Backstage passes to a TAFKAL80ETC concert",
                     Price = 100,
-                    Quantity = 10
+                    AvailableUnits = 10
                 }
             });
         }

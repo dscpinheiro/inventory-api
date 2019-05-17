@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Inventory.Models
 {
@@ -8,6 +9,8 @@ namespace Inventory.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public int Price { get; set; }
-        public int Quantity { get; set; }
+
+        public int AvailableUnits { get; set; }
+        public List<Purchase> Purchases { get; set; } = new List<Purchase>();
     }
 }
