@@ -29,6 +29,13 @@ namespace Inventory.IdentityServer
                 AllowAccessTokensViaBrowser = true,
                 RedirectUris = { "http://localhost:5000/oauth2-redirect.html" },
                 AllowedScopes = { "inventory_api" }
+            },
+            new Client
+            {
+                ClientId = "integrationtests_client",
+                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                ClientSecrets = { new Secret("secret".Sha256()) },
+                AllowedScopes = { "inventory_api" }
             }
         };
     }
