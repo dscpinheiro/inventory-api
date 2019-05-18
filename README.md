@@ -20,7 +20,7 @@ Another option is to use Visual Studio and select both `Inventory.IdentityServer
 
 After the application starts, you should be able to navigate to `http://localhost:5000` in your web browser (or invoke the API via cURL).
 
-![SwaggerUI](images/swagger.png)
+![SwaggerUI](images/swaggerui.png)
 
 ```console
 curl "http://localhost:5000/inventory?limit=1" --verbose --include
@@ -30,6 +30,15 @@ curl "http://localhost:5000/inventory?limit=1" --verbose --include
 The authentication mechanism chosen for this API was the [Identity Server](http://docs.identityserver.io/en/latest/) framework. The main reason for this decision was the fact that it has the ability to issue access tokens for multiple types of clients (server to server, native / mobile apps, SPAs, etc.) out of the box. It also integrates well with the Swagger UI (making testing straightforward) and the .NET core authentication middleware (allowing operations to be protected with the `Authorize` attribute).
 
 In this implementation, the configuration details (users, clients, and resources) are stored in memory, but Identity Server also supports saving them in a persistent data store.
+
+Here's a step by step on the authorization workflow via UI:
+
+1. Click on the `Authorize` button in the Swagger UI
+2. Select the `inventory_api` scope and click `Authorize`: ![SwaggerAuth](images/swaggerauth.png)
+3. This will redirect you to the Identity Server login page: ![IdentityServerLogin](images/idservlogin.png)
+4. Enter the credentials for one of the [predefined users](src/Inventory.IdentityServer/Quickstart/TestUsers.cs)
+5. Confirm that `Inventory API` is selected in the Application Access list and click `Yes, Allow`: ![IdentityServerPermissions](images/idservpermissions.png)
+6. You will be redirected back to the Swagger UI, and all following requests to protected operations will automatically include the access token
 
 ## Business Rules
 TODO
