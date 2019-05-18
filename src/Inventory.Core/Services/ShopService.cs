@@ -38,7 +38,7 @@ namespace Inventory.Core.Services
 
         public async Task<(PurchaseStatus status, int totalPrice)> BuyItem(Item item, int quantity, string buyerId)
         {
-            if (item.AvailableUnits == 0)
+            if (item.AvailableUnits <= 0)
             {
                 return (PurchaseStatus.OutOfStock, 0);
             }

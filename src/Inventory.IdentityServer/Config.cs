@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 using IdentityServer4.Models;
+using Inventory.Models;
 using System.Collections.Generic;
 
 namespace Inventory.IdentityServer
@@ -16,7 +17,7 @@ namespace Inventory.IdentityServer
 
         public static IEnumerable<ApiResource> GetApis() => new List<ApiResource>
         {
-            new ApiResource("inventory_api", "Inventory API")
+            new ApiResource(AuthConstants.ApiName, "Inventory API")
         };
 
         public static IEnumerable<Client> GetClients() => new List<Client>
@@ -28,14 +29,14 @@ namespace Inventory.IdentityServer
                 AllowedGrantTypes = GrantTypes.Implicit,
                 AllowAccessTokensViaBrowser = true,
                 RedirectUris = { "http://localhost:5000/oauth2-redirect.html" },
-                AllowedScopes = { "inventory_api" }
+                AllowedScopes = { AuthConstants.ApiScope }
             },
             new Client
             {
                 ClientId = "integrationtests_client",
                 AllowedGrantTypes = GrantTypes.ClientCredentials,
                 ClientSecrets = { new Secret("secret".Sha256()) },
-                AllowedScopes = { "inventory_api" }
+                AllowedScopes = { AuthConstants.ApiScope }
             }
         };
     }

@@ -6,6 +6,7 @@ using IdentityServer4.AccessTokenValidation;
 using Inventory.Core.Data;
 using Inventory.Core.Interfaces;
 using Inventory.Core.Services;
+using Inventory.Models;
 using Inventory.Web.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,10 +21,6 @@ namespace Inventory.Web
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
-
-        public Startup(IConfiguration configuration) => Configuration = configuration;
-
         public void ConfigureServices(IServiceCollection services)
         {
             var serviceProvider = new ServiceCollection()
@@ -50,8 +47,8 @@ namespace Inventory.Web
                 options.AddSecurityDefinition("oauth2", new OAuth2Scheme
                 {
                     Flow = "implicit",
-                    AuthorizationUrl = "http://localhost:5001/connect/authorize",
-                    Scopes = new Dictionary<string, string> {{ "inventory_api", "Full access" }}
+                    AuthorizationUrl = AuthConstants.AuthorizationUrl,
+                    Scopes = new Dictionary<string, string> {{ AuthConstants.ApiScope, "Full access" }}
                 });
 
                 options.OperationFilter<AuthorizeOperationFilter>();
@@ -62,9 +59,9 @@ namespace Inventory.Web
                 .AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
                 .AddIdentityServerAuthentication(options =>
                 {
-                    options.Authority = "http://localhost:5001";
+                    options.Authority = AuthConstants.AuthorityUrl;
                     options.RequireHttpsMetadata = false;
-                    options.ApiName = "inventory_api";
+                    options.ApiName = AuthConstants.ApiName;
                 });
 
             services.AddCors();
@@ -96,7 +93,7 @@ namespace Inventory.Web
                 options.OAuthAppName("Inventory API - Swagger");
             });
 
-            app.UseCors(b => b.AllowAnyMethod().AllowAnyHeader().WithOrigins(Configuration["AllowedHosts"]));
+            app.UseCors(b => b.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
             app.UseMvc();
         }
     }

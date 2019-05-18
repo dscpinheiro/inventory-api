@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Inventory.Models;
 using Microsoft.AspNetCore.Authorization;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -22,7 +23,7 @@ namespace Inventory.Web.Filters
             operation.Responses.TryAdd("401", new Response { Description = "Unauthorized" });
             operation.Security = new List<IDictionary<string, IEnumerable<string>>>
             {
-                new Dictionary<string, IEnumerable<string>> {{ "oauth2", new[] { "inventory_api" }}}
+                new Dictionary<string, IEnumerable<string>> {{ "oauth2", new[] { AuthConstants.ApiScope }}}
             };
         }
     }
