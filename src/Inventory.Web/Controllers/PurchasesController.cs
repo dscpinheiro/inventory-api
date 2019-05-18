@@ -33,11 +33,11 @@ namespace Inventory.Web.Controllers
             var userId = User.Claims.First(c => c.Type == "sub").Value;
             var result = await _shopService.BuyItem(item, request.Quantity, userId);
 
-            return Ok(new PurchaseResponse
+            return new PurchaseResponse
             {
                 Status = result.status,
                 TotalPrice = result.totalPrice
-            });
+            };
         }
     }
 }

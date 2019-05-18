@@ -45,14 +45,6 @@ namespace Inventory.Core.Data
                 },
                 new Item
                 {
-                    Id = Guid.Parse("f0de704d-5d5e-4364-bd01-466f0022e8ff"),
-                    Name = "Sulfuras, Hand of Ragnaros",
-                    Description = "Sulfuras, Hand of Ragnaros",
-                    Price = 20,
-                    AvailableUnits = 15
-                },
-                new Item
-                {
                     Id = Guid.Parse("09af8d3f-85bc-46a7-8d48-79ba78a01de6"),
                     Name = "Conjured Mana Cake",
                     Description = "Conjured Mana Cake",

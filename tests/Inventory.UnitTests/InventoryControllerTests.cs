@@ -17,15 +17,13 @@ namespace Inventory.UnitTests
 
         public InventoryControllerTests()
         {
-            var options = new DbContextOptionsBuilder<ApiDbContext>()
-                .UseInMemoryDatabase(databaseName: nameof(InventoryControllerTests))
-                .Options;
+            var dbName = $"Inventory{Guid.NewGuid().ToString()}";
+            var options = new DbContextOptionsBuilder<ApiDbContext>().UseInMemoryDatabase(databaseName: dbName).Options;
 
             _context = new ApiDbContext(options);
             _context.Database.EnsureCreated();
 
-            var shopService = new ShopService(_context);
-            _controller = new InventoryController(shopService);
+            _controller = new InventoryController(new ShopService(_context));
         }
 
         [Fact]
@@ -104,7 +102,7 @@ namespace Inventory.UnitTests
         }
 
         [Theory]
-        [InlineData("Hand")]
+        [InlineData("Brie")]
         [InlineData("Conjured")]
         public async Task Get_ItemsWithKnownDescription_ReturnsOk(string description)
         {
@@ -126,7 +124,7 @@ namespace Inventory.UnitTests
         [Fact]
         public async Task Get_ExistingItem_ReturnsOk()
         {
-            var existingItemId = Guid.Parse("f0de704d-5d5e-4364-bd01-466f0022e8ff");
+            var existingItemId = Guid.Parse("4bf93e23-44b8-402e-86da-f690abb1f0d5");
 
             var actionResult = await _controller.Get(existingItemId);
             var item = actionResult.Value;
