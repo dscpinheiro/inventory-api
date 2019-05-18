@@ -53,9 +53,10 @@ namespace Inventory.Core.Services
 
             var purchase = new Purchase
             {
-                Item = item,
+                ItemId = item.Id,
                 Quantity = quantity,
-                TotalPrice = item.Price * quantity
+                TotalPrice = item.Price * quantity,
+                BuyerId = buyerId
             };
 
             await _context.Purchases.AddAsync(purchase);
@@ -63,5 +64,8 @@ namespace Inventory.Core.Services
 
             return (PurchaseStatus.Completed, purchase.TotalPrice);
         }
+
+        public async Task<IEnumerable<Purchase>> GetPurchases() =>
+            await _context.Purchases.ToListAsync();
     }
 }

@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Inventory.Core.Interfaces;
+using Inventory.Models;
 using Inventory.Web.Requests;
 using Inventory.Web.Responses;
 using Microsoft.AspNetCore.Authorization;
@@ -15,6 +17,14 @@ namespace Inventory.Web.Controllers
         private readonly IShopService _shopService;
 
         public PurchasesController(IShopService service) => _shopService = service;
+
+        [HttpGet]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public async Task<ActionResult<IEnumerable<Purchase>>> Get()
+        {
+            var purchases = await _shopService.GetPurchases();
+            return purchases.ToList();
+        }
 
         /// <summary>Submits a purchase of an item.</summary>
         /// <param name="request">The item (and quantity) to be purchased.</param>

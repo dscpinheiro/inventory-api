@@ -10,7 +10,5 @@ namespace Inventory.Models
         public string Description { get; set; }
         public int Price { get; set; }
         public int AvailableUnits { get; set; }
-
-        public List<Purchase> Purchases { get; set; } = new List<Purchase>();
     }
 }

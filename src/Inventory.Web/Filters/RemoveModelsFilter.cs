@@ -7,7 +7,7 @@ namespace Inventory.Web.Filters
     {
         public void Apply(SwaggerDocument swaggerDoc, DocumentFilterContext context)
         {
-            swaggerDoc.Definitions.Remove(nameof(Models.Item));
+            swaggerDoc.Definitions.Remove(nameof(Models.Purchase));
         }
     }
 }
