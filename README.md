@@ -28,14 +28,17 @@ curl "http://localhost:5000/inventory?limit=1" --verbose --include
 
 ## Authentication
 
+## Business Rules
+
 ## Tests
 This API has two types of tests:
 
 1. Unit tests
+    - Check that items can only be bought if there are enough units in the inventory
     - Validate if the API interface is implemented correctly (i.e. the appropriate HTTP status codes are returned)
 2. Integration tests
-    - Check if protected operations can be accessed by unauthenticated users.
-    - Validate the application request-response pipeline
+    - Check that protected operations can only be accessed by authenticated users
+    - Validate the application request-response pipeline (e.g. model binding)
 
 The unit tests can be run with the following command
 ```console
@@ -47,5 +50,3 @@ The integration tests, on the other hand, require the identity management system
 dotnet run -p src/Inventory.IdentityServer/Inventory.IdentityServer.csproj
 dotnet test tests/Inventory.IntegrationTests/Inventory.IntegrationTests.csproj
 ```
-
-## Business Rules
