@@ -67,10 +67,7 @@ namespace Inventory.Web
             services.AddCors();
             services
                 .AddMvc()
-                .AddJsonOptions(options =>
-                {
-                    options.SerializerSettings.Converters.Add(new StringEnumConverter());
-                })
+                .AddJsonOptions(options => options.SerializerSettings.Converters.Add(new StringEnumConverter()))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -79,6 +76,12 @@ namespace Inventory.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<ApiDbContext>();
+                context.Database.EnsureCreated();
             }
 
             app.UseAuthentication();

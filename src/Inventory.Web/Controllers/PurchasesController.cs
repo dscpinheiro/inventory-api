@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,14 +41,30 @@ namespace Inventory.Web.Controllers
                 return NotFound();
             }
 
-            var userId = User.Claims.First(c => c.Type == "sub").Value;
-            var result = await _shopService.BuyItem(item, request.Quantity.Value, userId);
+            var result = await _shopService.BuyItem(item, request.Quantity.Value, GetBuyerId());
 
             return new PurchaseResponse
             {
                 Status = result.status,
                 TotalPrice = result.totalPrice
             };
+        }
+
+        private string GetBuyerId()
+        {
+            var sub = User.Claims.FirstOrDefault(c => c.Type == "sub");
+            if (sub != null)
+            {
+                return sub.Value;
+            }
+
+            var clientId = User.Claims.FirstOrDefault(c => c.Type == "client_id");
+            if (clientId != null)
+            {
+                return clientId.Value;
+            }
+
+            throw new InvalidOperationException("Could not find subject or client id in token");
         }
     }
 }

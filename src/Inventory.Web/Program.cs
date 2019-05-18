@@ -1,7 +1,5 @@
-﻿using Inventory.Core.Data;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Inventory.Web
 {
@@ -10,13 +8,6 @@ namespace Inventory.Web
         public static void Main(string[] args)
         {
             var webHost = CreateWebHostBuilder(args).Build();
-
-            using (var scope = webHost.Services.CreateScope())
-            {
-                var context = scope.ServiceProvider.GetService<ApiDbContext>();
-                context.Database.EnsureCreated();
-            }
-
             webHost.Run();
         }
 
