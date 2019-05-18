@@ -34,14 +34,14 @@ namespace Inventory.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<PurchaseResponse>> Post(PurchaseRequest request)
         {
-            var item = await _shopService.GetItem(request.ItemId);
+            var item = await _shopService.GetItem(request.ItemId.Value);
             if (item == null)
             {
                 return NotFound();
             }
 
             var userId = User.Claims.First(c => c.Type == "sub").Value;
-            var result = await _shopService.BuyItem(item, request.Quantity, userId);
+            var result = await _shopService.BuyItem(item, request.Quantity.Value, userId);
 
             return new PurchaseResponse
             {

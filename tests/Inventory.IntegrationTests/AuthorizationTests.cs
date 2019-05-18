@@ -12,12 +12,13 @@ namespace Inventory.IntegrationTests
 {
     public class AuthorizationTests : IDisposable
     {
+        private readonly TestServer _testServer;
         private readonly HttpClient _client;
 
         public AuthorizationTests()
         {
-            var testServer = new TestServer(new WebHostBuilder().UseStartup<Startup>());
-            _client = testServer.CreateClient();
+            _testServer = new TestServer(new WebHostBuilder().UseStartup<Startup>());
+            _client = _testServer.CreateClient();
         }
 
         [Fact]
@@ -48,6 +49,10 @@ namespace Inventory.IntegrationTests
             Assert.NotEqual(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
-        public void Dispose() => _client.Dispose();
+        public void Dispose()
+        {
+            _client.Dispose();
+            _testServer.Dispose();
+        }
     }
 }
