@@ -9,18 +9,20 @@ namespace Inventory.IntegrationTests
     {
         public static async Task<string> GetAccessToken()
         {
-            var client = new HttpClient();
-            var discovery = await client.GetDiscoveryDocumentAsync(AuthConstants.AuthorityUrl);
-
-            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            using (var client = new HttpClient())
             {
-                Address = discovery.TokenEndpoint,
-                ClientId = "integrationtests_client",
-                ClientSecret = "secret",
-                Scope = AuthConstants.ApiScope
-            });
+                var discovery = await client.GetDiscoveryDocumentAsync(AuthConstants.AuthorityUrl);
 
-            return tokenResponse.AccessToken;
+                var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+                {
+                    Address = discovery.TokenEndpoint,
+                    ClientId = "integrationtests_client",
+                    ClientSecret = "secret",
+                    Scope = AuthConstants.ApiScope
+                });
+
+                return tokenResponse.AccessToken;
+            }
         }
     }
 }

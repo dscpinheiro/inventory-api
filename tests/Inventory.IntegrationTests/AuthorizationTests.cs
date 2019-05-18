@@ -10,15 +10,14 @@ using Xunit;
 
 namespace Inventory.IntegrationTests
 {
-    public class AuthorizationTests
+    public class AuthorizationTests : IDisposable
     {
-        private readonly TestServer _testServer;
         private readonly HttpClient _client;
 
         public AuthorizationTests()
         {
-            _testServer = new TestServer(new WebHostBuilder().UseStartup<Startup>());
-            _client = _testServer.CreateClient();
+            var testServer = new TestServer(new WebHostBuilder().UseStartup<Startup>());
+            _client = testServer.CreateClient();
         }
 
         [Fact]
@@ -48,5 +47,7 @@ namespace Inventory.IntegrationTests
             var response = await _client.PostAsJsonAsync("purchases", new PurchaseRequest());
             Assert.NotEqual(HttpStatusCode.Unauthorized, response.StatusCode);
         }
+
+        public void Dispose() => _client.Dispose();
     }
 }
