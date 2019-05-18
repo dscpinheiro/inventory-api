@@ -42,11 +42,8 @@ namespace Inventory.Web.Controllers
             return items.ToList();;
         }
 
-        /// <summary>Retrieves an existing item in the inventory.</summary>
-        /// <param name="id">Id of the item to be retrieved.</param>
         [HttpGet("{id:guid}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ActionResult<Item>> Get(Guid id)
         {
             var item = await _shopService.GetItem(id);
