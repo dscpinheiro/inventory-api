@@ -7,7 +7,7 @@ This is a simple API that allows merchants to browse a shop's inventory and make
 | POST        | `/purchases` | `{ "itemId": "52243256-455e-4376-9cac-39fbe1c7cb42", "quantity": 2 }` | `{ "status": "Completed", "totalPrice": 20 }` |
 
 ## Run API
-The API uses an in-memory database and can be run locally by using the following commands (assuming that you are in the root folder of the repository):
+The API uses an in-memory database and can be run locally by using these commands (assuming that you are in the root folder of the repository):
 
 ```console
 dotnet run -p src/Inventory.IdentityServer/Inventory.IdentityServer.csproj
@@ -38,10 +38,18 @@ Here's a step by step on the authorization workflow via UI:
 3. This will redirect you to the Identity Server login page: ![IdentityServerLogin](images/idservlogin.png)
 4. Enter the credentials for one of the [predefined users](src/Inventory.IdentityServer/Quickstart/TestUsers.cs)
 5. Confirm that `Inventory API` is selected in the Application Access list and click `Yes, Allow`: ![IdentityServerPermissions](images/idservpermissions.png)
-6. You will be redirected back to the Swagger UI, and all following requests to protected operations will automatically include the access token
+6. You will be redirected back to the Swagger UI, and all requests to protected operations will automatically include the access token
 
 ## Business Rules
-TODO
+Here's how the API determines if it is possible for an item to be bought:
+
+1. Each item in the inventory has a finite number of available units
+2. Once a purchase request is received, the following checks are made:
+    - Does the item exist?
+    - Does the item have any available units (i.e. is available units greater than zero)?
+    - Can the quantity in the request be fulfilled (i.e. is available units less than or equals to the request quantity)?
+3. If any of those fail, the item cannot be bought
+4. Otherwise, the purchase is registered and the number of available units is updated to reflect the new current inventory state
 
 ## Tests
 This API has two types of tests:
@@ -53,7 +61,7 @@ This API has two types of tests:
     - Check that protected operations can only be accessed by authenticated users
     - Validate the application request-response pipeline (e.g. model binding)
 
-The unit tests can be run with the following command:
+The unit tests can be run with this command:
 ```console
 dotnet test tests/Inventory.UnitTests/Inventory.UnitTests.csproj
 ```
