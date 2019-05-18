@@ -49,7 +49,7 @@ Here's how the API determines if it is possible for an item to be bought:
     - Does the item have any available units (i.e. is available units greater than zero)?
     - Can the quantity in the request be fulfilled (i.e. is available units less than or equals to the request quantity)?
 3. If any of those fail, the item cannot be bought
-4. Otherwise, the purchase is registered and the number of available units is updated to reflect the new current inventory state
+4. Otherwise, the purchase is registered and the number of available units is updated to reflect the new inventory state
 
 ## Tests
 This API has two types of tests:
