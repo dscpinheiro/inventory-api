@@ -39,7 +39,7 @@ namespace Inventory.Web.Controllers
             }
 
             var items = await _shopService.GetItems(limit, offset, name, description);
-            return items.ToList();;
+            return items.ToList();
         }
 
         [HttpGet("{id:guid}")]
