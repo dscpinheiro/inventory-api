@@ -10,6 +10,7 @@ using Xunit;
 
 namespace Inventory.UnitTests
 {
+    [Trait("Category", "Unit")]
     public class InventoryControllerTests : IDisposable
     {
         private readonly InventoryController _controller;

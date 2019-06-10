@@ -11,6 +11,7 @@ using Xunit;
 
 namespace Inventory.IntegrationTests
 {
+    [Trait("Category", "Integration")]
     public class IntegrityTests : IDisposable
     {
         private readonly TestServer _testServer;

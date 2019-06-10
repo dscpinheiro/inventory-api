@@ -13,6 +13,7 @@ using Xunit;
 
 namespace Inventory.UnitTests
 {
+    [Trait("Category", "Unit")]
     public class PurchasesControllerTests : IDisposable
     {
         private readonly PurchasesController _controller;

@@ -10,6 +10,7 @@ using Xunit;
 
 namespace Inventory.IntegrationTests
 {
+    [Trait("Category", "Integration")]
     public class AuthorizationTests : IDisposable
     {
         private readonly TestServer _testServer;
